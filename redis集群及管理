@@ -20,6 +20,9 @@ cluster nodes //查看集群节点信息
 在客户端访问redis集群时 需要加 -c 选项
 redis-cli -c -h ip地址 -p 端口
 
+命令行指定主库 > slaveof  主库ip  端口
+命令行把从库恢复为主库 > slaveof no one
+
 集群管理
 redis-cli命令
 查看命令帮助
