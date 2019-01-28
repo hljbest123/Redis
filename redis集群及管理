@@ -39,7 +39,7 @@ reshard  重新分片
 add-node --slave 添加slave主机
 del-node 删除主机
 create   创建集群
-
+info replication  查看主从配置信息
 选举master主机
 -master宕机后对应的slave自动被选举为master
 -原master启动后 会自动配置为当前master的slave
