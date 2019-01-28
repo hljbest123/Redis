@@ -1,0 +1,106 @@
+配置集群
+
+调整配置文件
+vim /etc/redis/redis.conf
+bind //IP地址
+daemonize yes //守护进程方式运行
+port xxx  //段口号不使用默认的6379
+cluster-enabled yes  //启用集群
+cluster-config-file nodes-xxxx.conf //指定集群信息文件
+cluster-node-timeout 5000 //请求超时5秒
+
+部署ruby脚本执行环境
+需要安装 ruby rubygems ruby-devel redis的接口程序
+创建集群
+redis-trib.rb create --replicas 1\ --replicas 1 自动为每一个master节点分配一个slave节点
+host:port host:port host:port host:port
+
+cluster info //查看集群信息
+cluster nodes //查看集群节点信息
+在客户端访问redis集群时 需要加 -c 选项
+redis-cli -c -h ip地址 -p 端口
+
+集群管理
+redis-cli命令
+查看命令帮助
+redis-cli -h
+常用选项
+-h IP地址
+-p 端口
+-c 集群模式
+
+redis-trib.rb脚本
+语法格式
+redis-trib.rb 选项  参数
+选项
+add-node 添加master主机
+check    检测集群
+reshard  重新分片
+add-node --slave 添加slave主机
+del-node 删除主机
+create   创建集群
+
+选举master主机
+-master宕机后对应的slave自动被选举为master
+-原master启动后 会自动配置为当前master的slave
+
+添加master主机
+添加时不指定主机角色，默认新主机被选为master
+redis-trib.rb add-node 新主机ip：端口 集群中任意主机ip
+
+检测集群主机
+redis-trib.rb check  host:端口
+重新分片
+redis-trib.rb reshard host:端口 
+--指出移出hash曹个数
+--指定接收hash槽主机ID
+--指定移出hash槽主机ID
+
+添加slave角色主机
+redis-trib.rb   add-node  --slave [--master-id id值]  ip地址：端口  集群中任意主机ip：端口
+如果布指定主节点id的话，会把新节点随机添加为从节点最少的主的从
+
+移除master主机
+删除master角色的主机，先删除主机占用的hash槽
+redis-trib.rb del-node ip:port \  
+master主机的id值
+
+移除slave主机
+从节点主机没有槽位范围,直接移除即可
+redis-trib.rb del-node ip:port  主机id值
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
