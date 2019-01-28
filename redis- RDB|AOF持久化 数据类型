@@ -1,0 +1,54 @@
+主从复制结构模式
+结构模式
+- 一主一从，一主多从，主从从
+工作原理
+-slave向master发送sync命令
+-master启动后台存盘进程，并收集所有修改数据命令
+-master完成后台存盘后，传送整个数据文件到slave
+-slave接收数据文件，家在到内存中完成首次完全同步
+-后续又数据产生时，master继续将新的数据收集到的修改命令依次传给slave，完成同步
+主从复制的缺点
+-网络繁忙，会产生数据同步延时问题
+-系统繁忙，会产生数据同步延时问题
+
+配置从库
+-redis服务运行后，默认都是master服务器
+手动设为从库
+slaveof 主库ip地址 端口号
+-主库宕机后，手动将从库设置为主库
+slaveof no one
+
+哨兵模式
+-主库宕机后，从库自动升级为主库
+-在slave主机编辑sentinel.conf文件
+-在slave主机运行哨兵服务
+vim /etc/sentinel.conf
+sentinel   monitor   redisA       192.168.4.51   6379   1
+关键字      关键字    主机名自定义       ip           端口  票数
+sentinel   auth-pass  连接的主库名 密码  //连接主库密码，若主库有密码加上这一行
+redis-sentinel /etc/sentinel.conf    //执行哨兵模式
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
