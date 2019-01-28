@@ -1,0 +1,85 @@
+Redis介绍
+-Remote Dictionary Server(远程字典服务器)
+-是一款高性能的（Key/Values）分布式内存数据库
+-支持数据持久化,可以把内存里的数据保存到硬盘中
+-也支持list,hash,set,zset 数据类型
+-支持master-salve （主从）模式数据备份
+
+Redis部署
+配置服务运行参数
+-端口
+-主配置文件
+[root@redis1 utils]# cp /etc/redis/6379.conf  /root/6379.conf     
+//可以先备份一份，防止修改错误没法还原
+[root@redis1 utils]# vim /etc/redis/6379.conf
+...
+bind  192.168.4.51                //设置服务使用的ip
+port 6351                            //更改端口号
+requirepass 123456                //设置密码
+
+-数据库目录
+-pid文件
+-启动程序
+
+启动/停止服务
+启动服务
+#/etc/init.d/redis_6379 start
+停止服务
+#/etc/init.d/redis_6379 stop
+连接redis服务 
+redis-cli
+redis-cli -a密码 -h ip地址 -p 端口号
+
+常用操作指令
+set 变量名 值  //存储
+get 便两名  //获取
+select 数据库编号0-15 //切换库
+kyes *  //打印所有变量
+keys 便两名 //打印指定变量
+EXISTS 变量名  //测试是否存在
+ttl  变量名  //查看生存时间
+type 变量名 //查看类型
+move 变量名 库名 //移动变量
+expire 变量名 时间（秒为点为） //设置有效存在时间
+del 变量名 //删除变量
+flushall //删除所有变量
+save //保存所有变量到硬盘
+shutdown //关闭服务
+
+常用配置选项
+port 6379 //端口
+bind 127.0.0.1 //ip地址
+tcp-backlog 511 //tcp连接总数
+timeout 0 //连接超时时间
+tcp-keepalive //长连接时间
+daemonzie yes //守护进程方式运行
+databases 16 //数据库个数
+/var/log/redis_6379.log  //pid 文件
+maxclients 10000 //并发连接数量
+/var/lib/redis/6379 //数据库目录
+
+内存清除策略
+volatile-lru //最近最少使用的(针对设置了ttl的key)
+allkeys-lru //删除最少使用的key
+volatile-ttl //移除最近过期的key
+noeviction //不删除 写满时报错
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
